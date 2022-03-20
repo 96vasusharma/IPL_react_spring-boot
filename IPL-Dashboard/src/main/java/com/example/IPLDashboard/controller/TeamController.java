@@ -16,11 +16,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+// since domain is diff .. react port is 3000 .. spring boot port is 8496
 @CrossOrigin
 public class TeamController {
 
     private TeamRepository teamRepository;
 
+    // another way to inject dependency
     @Autowired
     private MatchRepository matchRepository;
 
@@ -33,19 +35,20 @@ public class TeamController {
     public Team getTeamByName(@PathVariable("teamName") String teamName) {
 
         Team team = teamRepository.findByTeamName(teamName);
+        // we need this data from the match table
         team.setLatestMatches(matchRepository.findLatestMatchesByTeamName(teamName, 4));
 
         return team;
     }
 
+    // team's matches for a particular year
     @GetMapping("/team/{teamName}/matches")
     public List<Match> getMatchesForTeamByYear(@PathVariable("teamName") String teamName,
             @RequestParam("year") int year) {
 
         LocalDate startDate = LocalDate.of(year, 1, 1);
         LocalDate endDate = LocalDate.of(year + 1, 1, 1);
-        List<Match> matches = matchRepository.findByTeamNameBetweenDate(teamName, startDate, endDate);
+        return matchRepository.findByTeamNameBetweenDate(teamName, startDate, endDate);
 
-        return matches;
     }
 }

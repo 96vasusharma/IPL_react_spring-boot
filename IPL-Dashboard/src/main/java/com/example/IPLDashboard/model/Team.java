@@ -16,6 +16,14 @@ public class Team {
     @Transient
     private List<Match> latestMatches;
 
+    public Team() {
+    }
+
+    public Team(String teamName, long totalMatches) {
+        this.teamName = teamName;
+        this.totalMatches = totalMatches;
+    }
+
     public long getId() {
         return id;
     }

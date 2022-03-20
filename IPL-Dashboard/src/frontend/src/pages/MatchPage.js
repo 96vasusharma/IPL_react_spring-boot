@@ -1,16 +1,20 @@
 import React from 'react';
-import { MatchDetailCard } from '../components/MatchDetailCard';
+import { MatchSmallCard } from '../components/MatchSmallCard';
 
-export function MatchPage(props) {
+export function MatchPage({matches, teamName}) {
+
+  /* In case matches array is not found in props */
+  if(!matches)
+    return;
 
     return (
         <div className="MatchPage">
 
             <h1>Match Page</h1>
 
-            {props.matches.map((match, idx) =>
-                <MatchDetailCard key={idx}
-                    currentTeamName={props.teamName}
+            {matches.map((match, idx) =>
+                <MatchSmallCard key={idx}
+                    currentTeamName={teamName}
                     match={match} />
             )}
 

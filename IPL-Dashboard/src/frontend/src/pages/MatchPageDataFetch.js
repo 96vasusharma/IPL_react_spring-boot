@@ -1,18 +1,23 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useSearchParams } from 'react-router-dom';
 import { MatchPage } from '../pages/MatchPage';
 
 export function MatchPageDataFetch() {
 
   const [matches, setMatches] = useState({ loading: true });
-  const { teamName, year } = useParams();
+  /* path param */
+  const { teamName} = useParams();
+
+  /* query param */
+  const [searchParams, setSearchParams] = useSearchParams();
+  const year = searchParams.get("year") ?? 0;
 
   useEffect(
 
     () => {
 
       const fetchMatches = async () => {
-        const response = await fetch(`http://localhost:8080/team/${teamName}/matches?year=${year}`);
+        const response = await fetch(`http://localhost:8496/team/${teamName}/matches?year=${year}`);
         const data = await response.json();
         setMatches(data);
       };

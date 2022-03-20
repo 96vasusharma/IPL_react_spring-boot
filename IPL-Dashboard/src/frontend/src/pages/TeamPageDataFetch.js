@@ -2,35 +2,56 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { TeamPage } from './TeamPage';
 
+/* Data fetch page is to fetch data from api
+   and pass it to its corresponding react component  */
 export function TeamPageDataFetch() {
 
+  /* Loading true is the initial value of this react state */
   const [team, setTeam] = useState({ loading: true });
+  /* useParams give us all the path params , so using destructuring */
   const { teamName } = useParams();
 
+  /* Using react hooks
+     for events like react component first load */
   useEffect(
 
-    // ===== Alternative in ES6 (previous version of js) ====
-    // fetch('http://localhost:8080/team/Rajasthan Royals')
-    //   .then(response => response.json())
-    //   .then(data => console.log(data));
+    /*
+    ===== Alternative in ES6 (previous version of js) ====
+    fetch('http://localhost:8496/team/Rajasthan Royals')
+      .then(response => response.json())
+      .then(data => console.log(data));
+    */
 
+    /* first argument is a callback function */
     () => {
 
+      /* Using async to use await for the fetch api */
       const fetchTeam = async () => {
-        const response = await fetch(`http://localhost:8080/team/${teamName}`);
+        /* Rest call to the BE API via fetch api
+           await waits for the operation to complete
+        */
+        const response = await fetch(`http://localhost:8496/team/${teamName}`);
+        /* converting to json */
         const data = await response.json();
+        /* set api response in react state */
         setTeam(data);
       };
 
       fetchTeam();
-
     }
-    , [teamName]);
+    ,
+    /* second argument is dependency array
+       this helps deciding when to re-trigger effect
+       in our case it happens when teamName is changed */
+    [teamName]
+    );
 
+  /* Loading obj property will be overridden by the response from api */
   if (team.loading)
     return "Loading....";
 
-  if (team.latestMatches === undefined)
+  /* if api response is blank or doesn't have teamName */
+  if (!team || !team.teamName)
     return <h2>Team not found</h2>;
 
   return (

@@ -35,13 +35,17 @@ public class BatchConfig {
             ,"toss_decision","winner","result","result_margin","eliminator","method","umpire1","umpire2"
     };
 
+    // csv -> MatchInput
     @Bean
     public FlatFileItemReader<MatchInput> reader() {
         return new FlatFileItemReaderBuilder<MatchInput>()
                 .name("matchItemReader")
+                // data source csv file
                 .resource(new ClassPathResource("match-data.csv"))
                 .delimited()
+                // columns/fields to read
                 .names(CSV_FIELD_NAMES)
+                // output Java-type to convert to
                 .fieldSetMapper(new BeanWrapperFieldSetMapper<MatchInput>() {{
                     setTargetType(MatchInput.class);
                 }})
@@ -49,39 +53,48 @@ public class BatchConfig {
                 .build();
     }
 
+    // MatchInput -> Match
     @Bean
     public MatchDataProcessor processor() {
         return new MatchDataProcessor();
     }
 
+    // Match -> DB save
+    // jpa by default converts camel case to have under-scores in b/w
     @Bean
     public JdbcBatchItemWriter<Match> writer(DataSource dataSource) {
         return new JdbcBatchItemWriterBuilder<Match>()
                 .itemSqlParameterSourceProvider(new BeanPropertyItemSqlParameterSourceProvider<>())
                 .sql("INSERT INTO match " +
-                        "(id,city,date,player_Of_Match,venue,team1,team2,toss_Winner,toss_Decision,match_Winner,result,result_Margin,eliminator,method,umpire1,umpire2) " +
-                        "VALUES (:id,:city,:date,:playerOfMatch,:venue,:team1,:team2,:tossWinner,:tossDecision,:matchWinner,:result,:resultMargin,:eliminator,:method,:umpire1,:umpire2)")
+                        "(id,city,date,player_Of_Match,venue,team1,team2,toss_Winner,toss_Decision,match_Winner,"
+                        + "result,result_Margin,eliminator,method,umpire1,umpire2) " +
+                        "VALUES (:id,:city,:date,:playerOfMatch,:venue,:team1,:team2,:tossWinner,:tossDecision,:matchWinner,"
+                        + ":result,:resultMargin,:eliminator,:method,:umpire1,:umpire2)")
                 .dataSource(dataSource)
                 .build();
     }
 
+    // job config
     @Bean
     public Job importUserJob(JobCompletionNotificationListener listener, Step step1) {
-        return jobBuilderFactory.get("importUserJob")
+        return jobBuilderFactory
+                .get("importUserJob")
                 .incrementer(new RunIdIncrementer())
-                .listener(listener)
-                .flow(step1)
+                .listener(listener) // know when the job is done
+                .flow(step1) // just 1 step in flow & then it will end ; can be multiple
                 .end()
                 .build();
     }
 
+    // step config to inject in job config
     @Bean
     public Step step1(JdbcBatchItemWriter<Match> writer) {
-        return stepBuilderFactory.get("step1")
+        return stepBuilderFactory
+                .get("step1")
                 .<MatchInput, Match> chunk(10)
                 .reader(reader())
                 .processor(processor())
-                .writer(writer)
+                .writer(writer) // no-idea why it is not the bean like others
                 .build();
     }
 }
