@@ -1,4 +1,4 @@
-import './App.css';
+import './App.scss';
 import { TeamPageDataFetch } from './pages/TeamPageDataFetch';
 import { MatchPageDataFetch } from './pages/MatchPageDataFetch';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'

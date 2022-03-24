@@ -1,0 +1,19 @@
+.MatchDetailCard {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    padding: 10px;
+    margin-bottom: 20px;
+
+    .match-date, .match-venue, .match-result {
+        margin-top: 10px;
+    }
+
+    .additional-details {
+        text-align: right;
+        // this is another way & is additional-details/current class
+        // we could have simply used p instead of & > p
+        & > p {
+            margin-bottom: 20px;
+        }
+    }
+}
