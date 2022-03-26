@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
 import { MatchDetailCard } from '../components/MatchDetailCard';
 import { MatchSmallCard } from '../components/MatchSmallCard';
 import './TeamPage.scss';
@@ -43,7 +44,7 @@ export function TeamPage({team}) {
       )}
 
       <div className="more-link">
-        <a href="#">More ></a>
+        <Link to={`/team/${team.teamName}/matches?year=${process.env.REACT_APP_DATA_END_YEAR}`}>More ></Link>
       </div>
 
     </div>

@@ -25,7 +25,7 @@ export function MatchPageDataFetch() {
       fetchMatches();
 
     }
-    , []);
+    , [teamName, year]);
 
   if (matches.loading)
     return "Loading....";
@@ -36,7 +36,7 @@ export function MatchPageDataFetch() {
   return (
     <div className="MatchPageDataFetch">
 
-      <MatchPage matches={matches} teamName={teamName} />
+      <MatchPage matches={matches} teamName={teamName} year={year} />
 
     </div>
   );

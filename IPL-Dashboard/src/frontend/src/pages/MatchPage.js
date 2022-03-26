@@ -1,7 +1,9 @@
 import React from 'react';
-import { MatchSmallCard } from '../components/MatchSmallCard';
+import { MatchDetailCard } from '../components/MatchDetailCard';
+import { YearSelector } from '../components/YearSelector';
+import "./MatchPage.scss";
 
-export function MatchPage({matches, teamName}) {
+export function MatchPage({matches, teamName, year}) {
 
   /* In case matches array is not found in props */
   if(!matches)
@@ -9,14 +11,21 @@ export function MatchPage({matches, teamName}) {
 
     return (
         <div className="MatchPage">
+            <div className="year-selector">
+                <h3> Select Year </h3>
+                <YearSelector teamName={teamName}/>
+            </div>
 
-            <h1>Match Page</h1>
+            <div>
+                <h1 className="page-heading">{teamName} matches in {year}</h1>
 
-            {matches.map((match, idx) =>
-                <MatchSmallCard key={idx}
-                    currentTeamName={teamName}
-                    match={match} />
-            )}
+                {matches.map((match, idx) =>
+                    <MatchDetailCard key={idx}
+                        currentTeamName={teamName}
+                        match={match} />
+                )}
+
+            </div>
 
         </div>
     );
