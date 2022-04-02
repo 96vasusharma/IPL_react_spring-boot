@@ -31,6 +31,7 @@ public class TeamController {
         this.teamRepository = teamRepository;
     }
 
+    // team details for a team name (team page)
     @GetMapping("/team/{teamName}")
     public Team getTeamByName(@PathVariable("teamName") String teamName) {
 
@@ -46,7 +47,7 @@ public class TeamController {
         }
     }
 
-    // team's matches for a particular year
+    // team's matches for a particular year (match page)
     @GetMapping("/team/{teamName}/matches")
     public List<Match> getMatchesForTeamByYear(@PathVariable("teamName") String teamName,
             @RequestParam("year") int year) {
@@ -57,7 +58,7 @@ public class TeamController {
 
     }
 
-    // all teams
+    // all teams (home page)
     @GetMapping("/team")
     public Iterable<Team> getAllTeams() {
 

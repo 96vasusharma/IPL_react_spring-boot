@@ -42,7 +42,7 @@ export function HomePageDataFetch() {
 
   /* if api response is blank */
   if (!teams)
-    return <h2>Teams not found</h2>;
+    return <h1>Teams not found</h1>;
 
   return (
     <div className="HomePageDataFetch">

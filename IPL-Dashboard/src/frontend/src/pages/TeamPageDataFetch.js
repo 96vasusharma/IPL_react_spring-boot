@@ -52,7 +52,7 @@ export function TeamPageDataFetch() {
 
   /* if api response is blank or doesn't have teamName */
   if (!team || !team.teamName)
-    return <h2>Team not found</h2>;
+    return <h1>Team not found</h1>;
 
   return (
     <div className="TeamPageDataFetch">

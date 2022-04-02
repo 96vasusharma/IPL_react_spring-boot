@@ -44,7 +44,9 @@ export function TeamPage({team}) {
       )}
 
       <div className="more-link">
-        <Link to={`/team/${team.teamName}/matches?year=${process.env.REACT_APP_DATA_END_YEAR}`}>More ></Link>
+        {/* More will take us to the latest year played for current team */}
+        {/* Date format is YYYY-MM-DD, so taking the first part from it */}
+        <Link to={`/team/${team.teamName}/matches?year=${team.latestMatches[0].date.split("-")[0]}`}>More ></Link>
       </div>
 
     </div>

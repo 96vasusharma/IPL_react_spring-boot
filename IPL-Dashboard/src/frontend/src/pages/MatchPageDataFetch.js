@@ -31,7 +31,7 @@ export function MatchPageDataFetch() {
     return "Loading....";
 
   if (matches.length === 0)
-    return <h2>Matches/Team not found</h2>;
+    return <h1>Matches/Team not found</h1>;
 
   return (
     <div className="MatchPageDataFetch">
