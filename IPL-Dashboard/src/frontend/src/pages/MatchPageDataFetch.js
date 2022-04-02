@@ -6,10 +6,10 @@ export function MatchPageDataFetch() {
 
   const [matches, setMatches] = useState({ loading: true });
   /* path param */
-  const { teamName} = useParams();
+  const {teamName} = useParams();
 
   /* query param */
-  const [searchParams, setSearchParams] = useSearchParams();
+  const [searchParams] = useSearchParams();
   const year = searchParams.get("year") ?? 0;
 
   useEffect(
@@ -17,7 +17,7 @@ export function MatchPageDataFetch() {
     () => {
 
       const fetchMatches = async () => {
-        const response = await fetch(`http://localhost:8496/team/${teamName}/matches?year=${year}`);
+        const response = await fetch(`${process.env.REACT_APP_API_ROOT_URL}/team/${teamName}/matches?year=${year}`);
         const data = await response.json();
         setMatches(data);
       };

@@ -30,7 +30,7 @@ export function TeamPageDataFetch() {
         /* Rest call to the BE API via fetch api
            await waits for the operation to complete
         */
-        const response = await fetch(`http://localhost:8496/team/${teamName}`);
+        const response = await fetch(`${process.env.REACT_APP_API_ROOT_URL}/team/${teamName}`);
         /* converting to json */
         const data = await response.json();
         /* set api response in react state */

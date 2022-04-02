@@ -37,8 +37,8 @@ export function TeamPage({team}) {
       </div>
 
       {/* send latest 3 matches excluding latest, to match small component*/}
-      {team.latestMatches.slice(1).map((match, idx) =>
-        <MatchSmallCard key={idx}
+      {team.latestMatches.slice(1).map((match) =>
+        <MatchSmallCard key={match.id}
           currentTeamName={team.teamName}
           match={match} />
       )}

@@ -1,7 +1,8 @@
 import './App.scss';
 import { TeamPageDataFetch } from './pages/TeamPageDataFetch';
 import { MatchPageDataFetch } from './pages/MatchPageDataFetch';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
+import { HomePageDataFetch } from './pages/HomePageDataFetch';
+import { HashRouter as Router, Route, Routes } from 'react-router-dom'
 
 function App() {
   return (
@@ -15,6 +16,8 @@ function App() {
           <Route path="/team/:teamName/matches" element = {<MatchPageDataFetch />} />
           {/* Team Page */}
           <Route path="/team/:teamName" element = {<TeamPageDataFetch />} />
+          {/* Home Page */}
+          <Route path="/*" element = {<HomePageDataFetch />} />
         </Routes>
       </Router>
 

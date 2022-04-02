@@ -35,10 +35,15 @@ public class TeamController {
     public Team getTeamByName(@PathVariable("teamName") String teamName) {
 
         Team team = teamRepository.findByTeamName(teamName);
-        // we need this data from the match table
-        team.setLatestMatches(matchRepository.findLatestMatchesByTeamName(teamName, 4));
 
-        return team;
+        if(team != null) {
+            // we need this data from the match table
+            team.setLatestMatches(matchRepository.findLatestMatchesByTeamName(teamName, 4));
+            return team;
+        }
+        else {
+            return new Team();
+        }
     }
 
     // team's matches for a particular year
@@ -50,5 +55,12 @@ public class TeamController {
         LocalDate endDate = LocalDate.of(year + 1, 1, 1);
         return matchRepository.findByTeamNameBetweenDate(teamName, startDate, endDate);
 
+    }
+
+    // all teams
+    @GetMapping("/team")
+    public Iterable<Team> getAllTeams() {
+
+        return teamRepository.findAll();
     }
 }

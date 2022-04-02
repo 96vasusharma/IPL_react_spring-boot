@@ -16,7 +16,7 @@ export function YearSelector({teamName}) {
             <ul>
                 {
                     years.map(year =>
-                        <li>
+                        <li key={year}>
                             <Link to={`/team/${teamName}/matches?year=${year}`}>
                                 {year}
                             </Link>
